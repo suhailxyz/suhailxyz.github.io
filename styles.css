@@ -55,7 +55,7 @@ hr {
 }
 
 footer {
-    font-family: Public Sans;
+    /* font-family: Public Sans; */
     font-size: small;
     display: flex;
     justify-content: center;

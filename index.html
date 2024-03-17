@@ -4,7 +4,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700&display=swap" rel="stylesheet" />
   <script type="module" src="https://md-block.verou.me/md-block.js"></script>
   <script>
     // Function to change the image source
@@ -15,16 +14,22 @@
         // Change to the new image
         image.src = "img/jerryeats.gif";
         image.alt = "Jerry eats a big cheese";
+        // Schedule the reset after 3 seconds (3000 milliseconds)
+        setTimeout(function () {
+          image.src = "img/jerry.jpg";
+          image.alt = "Cheeky Jerry";
+        }, 2880);
       } else {
         // Change back to the original image
         image.src = "img/jerry.jpg";
         image.alt = "Cheeky Jerry";
       }
     }
+
   </script>
   <link rel="stylesheet" href="styles.css" />
 
-  <title>hi, i'm suhail</title>
+  <title>Hey, I'm Suhail</title>
 </head>
 
 <body>
@@ -33,11 +38,12 @@
 
 
     <md-block>
-      # Hi I'm Suhail
+      # Hey, I'm Suhail!
 
       Full stack web developer currently working on *B2B SaaS @ Capital One.* Learning about computers,
       products, and people.
-      Writing about it sometimes.<img src="img/digging.gif" alt="Digging"> <img src="img/undercon.gif" alt="Under Construction">
+      Writing about it sometimes.<img src="img/digging.gif" alt="Digging"> <img src="img/undercon.gif"
+        alt="Under Construction">
       <img src="img/digging.gif" alt="Digging">
     </md-block>
   </div>
@@ -60,7 +66,7 @@
   </div>
 
   <footer>
-    <p>&copy; 2024 Suhail Jawahardeen ❤️ All rights reserved.</p>
+    <p>&copy; 2024 suhail.xyz ❤️ All rights reserved.</p>
   </footer>
 
 </body>
