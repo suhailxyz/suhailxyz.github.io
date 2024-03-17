@@ -14,6 +14,7 @@ body {
 /* Container styles */
 .container {
     width: 50%;
+    max-width: 50rem;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -29,11 +30,12 @@ body {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap; /* Allows images to wrap to the next line if not enough space */
+    margin-top: 1rem;
 
 }
 
 .centered img {
-    margin: 0 2px;
+    margin:.2rem;
 }
 
 hr {
@@ -41,12 +43,14 @@ hr {
     margin: 0.5em auto;
     border-style: inset;
     border-width: 1px;
-    max-width: 50%;
+    width: 50%;
+    max-width: 50rem;
 }
 
 /* Profile picture size */
 #pfp {
-    width: 20%;
+    max-width: 10rem;
+    width: 50%;
     padding-top: 2rem;
 }
 
@@ -57,7 +61,10 @@ footer {
     justify-content: center;
     align-items: center;
 }
-
+#workersgif{
+    max-width: 90%;
+    overflow-x: hidden;
+}
 /* Media query for mobile devices */
 @media only screen and (max-width: 600px) {
     .container {
@@ -67,15 +74,14 @@ footer {
     .centered img {
         width: auto;
         height: auto;
-        max-width: 20%;
-        margin: 4px;
     }
 
     #pfp {
         width: 40%;
     }
+    hr{
+    width: 90%;
 
-    hr {
-        max-width: 90%;
     }
+
 }
