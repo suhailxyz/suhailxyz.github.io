@@ -4,11 +4,12 @@ html, body {
     min-height: 100vh;
     margin: 0;
     padding: 0;
-    font-family: serif;
+    font-family:'Times New Roman', Times, serif;
 }
 
 body {
     cursor: url("img/32CheeseCursor.png"), default;
+    background-color: #faf0e6;
 }
 
 /* Container styles */
