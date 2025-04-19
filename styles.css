@@ -121,10 +121,26 @@ footer {
 .project-card {
     border: 2px solid;
     border-color: #fff #808080 #808080 #fff;
-    padding: 1rem;
+    padding: 0;
     margin: 1rem 0;
     background: #c0c0c0;
     box-shadow: inset 1px 1px 0px #fff, inset -1px -1px 0px #0a0a0a;
+}
+
+.project-card .title-bar {
+    background: #000080;
+    color: #fff;
+    padding: 3px 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'W95FA', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.project-card .content {
+    padding: 1rem;
 }
 
 .project-card h3 {
@@ -178,6 +194,17 @@ footer {
     padding-right: calc(1rem - 1px);
 }
 
+.section-title {
+    font-family: 'W95FA', sans-serif;
+    font-size: 18px;
+    margin: 1rem 0;
+    padding: 0.5rem;
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #fff #808080 #808080 #fff;
+    box-shadow: inset 1px 1px 0px #fff, inset -1px -1px 0px #0a0a0a;
+}
+
 /* Media query for mobile devices */
 @media only screen and (max-width: 600px) {
     .container {
@@ -197,4 +224,43 @@ footer {
 
     }
 
+}
+
+md-block h1 {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 42px;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+md-block h2 {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 28px;
+    margin: 1rem 0;
+    font-weight: bold;
+}
+
+md-block p {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 1rem 0;
+}
+
+md-block em {
+    font-style: normal;
+    color: #000080;
+    font-weight: bold;
+}
+
+md-block strong {
+    color: #000;
+    font-weight: bold;
+}
+
+/* Keep W95FA for Windows UI elements */
+.project-card .title-bar,
+.links-grid a,
+.project-card a {
+    font-family: 'W95FA', sans-serif;
 }
