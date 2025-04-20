@@ -165,9 +165,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         `;
     }
 
-    // Window controls
-    document.querySelector('.window-controls').addEventListener('click', (e) => {
-        if (e.target.matches('button')) {
+    // Window controls and toolbar actions
+    document.addEventListener('click', (e) => {
+        // Handle window controls
+        if (e.target.matches('.window-controls button')) {
             const action = e.target.dataset.action;
             switch (action) {
                 case 'minimize':
@@ -179,6 +180,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 case 'close':
                     window.location.href = 'index.html';
                     break;
+            }
+        }
+        
+        // Handle toolbar buttons
+        if (e.target.matches('.tool-button')) {
+            const action = e.target.dataset.action;
+            if (action === 'home') {
+                window.location.href = 'index.html';
             }
         }
     });

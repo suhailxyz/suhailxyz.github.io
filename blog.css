@@ -147,16 +147,16 @@ body {
     background-image: url('../img/icons/dos16.png');
 }
 
-.tool-button[data-action="reply"]::before {
-    background-image: url('../img/icons/disc16.png');
-}
-
 .tool-button[data-action="forward"]::before {
     background-image: url('../img/icons/help16.png');
 }
 
 .tool-button[data-action="delete"]::before {
     background-image: url('../img/icons/trash16.png');
+}
+
+.tool-button[data-action="home"]::before {
+    background-image: url('../img/icons/home16.png');
 }
 
 .tool-button:active {
