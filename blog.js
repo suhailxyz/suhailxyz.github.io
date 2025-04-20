@@ -48,11 +48,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     const postViewer = document.querySelector('.post-viewer');
     const statusCount = document.querySelector('.status-count');
 
+    // Function to get the base URL for posts
+    function getBaseUrl() {
+        // Check if we're in production (GitHub Pages)
+        if (window.location.hostname === 'heysuhail.com') {
+            return '/posts/'; // This will resolve to https://heysuhail.com/posts/
+        }
+        return './posts/'; // Local development
+    }
+
     // Function to get list of posts from directory
     async function getPostFiles() {
         console.log('Attempting to fetch index.json...');
         try {
-            const response = await fetch('./posts/index.json');
+            const baseUrl = getBaseUrl();
+            const response = await fetch(`${baseUrl}index.json`);
             console.log('Index.json response status:', response.status);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -72,9 +82,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             const postFiles = await getPostFiles();
             console.log('Got post files:', postFiles);
+            const baseUrl = getBaseUrl();
             const posts = await Promise.all(postFiles.map(async postInfo => {
                 console.log('Fetching post:', postInfo.file);
-                const response = await fetch(`./posts/${postInfo.file}`);
+                const response = await fetch(`${baseUrl}${postInfo.file}`);
                 console.log(`Response for ${postInfo.file}:`, response.status);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status} for ${postInfo.file}`);
