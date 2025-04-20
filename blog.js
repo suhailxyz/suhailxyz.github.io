@@ -1,56 +1,96 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Sample blog posts data
-    const posts = [
-        {
-            id: 1,
-            title: "Welcome to my blog!",
-            date: "16:06 19/04/24",
-            content: `Subject: Welcome to my blog!
-Date: April 19, 2024
+// Function to parse frontmatter and content from markdown
+function parseMd(markdown) {
+    const match = markdown.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+    if (!match) return null;
 
-Welcome to my retro-styled blog! This interface is inspired by classic email clients 
-like Eudora. Feel free to explore the different posts.
-
-Best regards,
-Suhail`
-        },
-        {
-            id: 2,
-            title: "Building a Retro Blog Interface",
-            date: "11:23 19/04/24",
-            content: `Subject: Building a Retro Blog Interface
-Date: April 19, 2024
-
-I've been working on creating this retro-styled blog interface that mimics the look 
-and feel of classic email clients from the Windows 95 era. Here's what I've done:
-
-1. Used the classic Windows 95 color scheme
-2. Implemented the characteristic window styling
-3. Added familiar UI elements like the menu bar and toolbar
-4. Maintained the compact, information-dense layout
-
-The goal was to create a nostalgic yet functional interface that brings back 
-memories of the early days of personal computing.
-
-Regards,
-Suhail`
+    const frontMatter = match[1];
+    const content = match[2].trim();
+    
+    // Parse frontmatter
+    const metadata = {};
+    frontMatter.split('\n').forEach(line => {
+        const [key, ...value] = line.split(':');
+        if (key && value) {
+            metadata[key.trim()] = value.join(':').trim();
         }
-    ];
+    });
 
+    return { metadata, content };
+}
+
+// Function to format date for display
+function formatDate(isoDate) {
+    const date = new Date(isoDate);
+    return date.toLocaleTimeString('en-GB', { 
+        hour: '2-digit', 
+        minute: '2-digit'
+    }) + ' ' + date.toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: '2-digit'
+    });
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
     // DOM elements
-    const postList = document.querySelector('.post-list');
+    const postList = document.querySelector('.post-list-container');
     const postViewer = document.querySelector('.post-viewer');
     const statusCount = document.querySelector('.status-count');
 
+    // Load and parse posts
+    async function loadPosts() {
+        try {
+            // Get all markdown files from the posts directory
+            const response = await fetch('/posts/');
+            const html = await response.text();
+            
+            // Create a temporary element to parse the HTML
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            
+            // Find all links that end with .md
+            const mdFiles = Array.from(doc.querySelectorAll('a'))
+                .filter(a => a.href.endsWith('.md'))
+                .map(a => a.href.split('/').pop());
+            
+            // Load and parse each markdown file
+            const posts = await Promise.all(mdFiles.map(async file => {
+                const response = await fetch(`/posts/${file}`);
+                const markdown = await response.text();
+                const parsed = parseMd(markdown);
+                if (!parsed) return null;
+
+                return {
+                    id: file.replace('.md', ''),
+                    title: parsed.metadata.title,
+                    date: parsed.metadata.date,
+                    content: parsed.content
+                };
+            }));
+
+            return posts.filter(post => post !== null).sort((a, b) => 
+                new Date(b.date) - new Date(a.date)
+            );
+        } catch (error) {
+            console.error('Error loading posts:', error);
+            return [];
+        }
+    }
+
     // Render posts
-    function renderPosts() {
+    async function renderPosts() {
+        const posts = await loadPosts();
+        
+        // Clear existing posts
+        postList.innerHTML = '';
+        
         // Add posts
         posts.forEach(post => {
             const postElement = document.createElement('div');
             postElement.className = 'post';
             postElement.innerHTML = `
                 <div class="post-title">${post.title}</div>
-                <div class="post-date">${post.date}</div>
+                <div class="post-date">${formatDate(post.date)}</div>
             `;
             postElement.addEventListener('click', () => {
                 document.querySelectorAll('.post').forEach(p => p.classList.remove('active'));
@@ -74,10 +114,17 @@ Suhail`
 
     // Render post content
     function renderPostContent(post) {
+        const formattedDate = new Date(post.date).toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric'
+        });
+
+        const header = `Subject: ${post.title}\nDate: ${formattedDate}\n\n`;
+        const content = post.content.split('\n').map(line => line.trim()).join('\n');
+
         postViewer.innerHTML = `
-            <div class="viewer-content">
-                ${post.content.split('\n').join('<br>')}
-            </div>
+            <div class="viewer-content" style="white-space: pre-wrap; font-family: 'W95FA', monospace;">${header}${content}</div>
         `;
     }
 
