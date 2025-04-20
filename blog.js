@@ -52,7 +52,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     function getBaseUrl() {
         // Check if we're in production (GitHub Pages)
         if (window.location.hostname === 'heysuhail.com') {
-            return '/posts/'; // This will resolve to https://heysuhail.com/posts/
+            // Use raw GitHub content URL
+            return 'https://raw.githubusercontent.com/suhailxyz/suhailxyz.github.io/master/posts/';
         }
         return './posts/'; // Local development
     }
