@@ -1,6 +1,6 @@
 ---
 title: Welcome to my blog!
-date: 2024-04-19T16:06:00
+date: 2024-04-10T16:06:00
 ---
 
 Welcome to my retro-styled blog! This interface is inspired by classic email clients 

@@ -149,16 +149,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Render post content
     function renderPostContent(post) {
         const formattedDate = new Date(post.date).toLocaleDateString('en-US', { 
+            weekday: 'long',
             year: 'numeric', 
             month: 'long', 
             day: 'numeric'
         });
-
-        const header = `Subject: ${post.title}\nDate: ${formattedDate}\n\n`;
         
         // Create a container for the rendered content
         postViewer.innerHTML = `
-            <div class="viewer-header" style="font-family: 'W95FA', monospace; white-space: pre-wrap;">${header}</div>
+            <div class="viewer-header">
+                <div class="subject">${post.title}</div>
+                <div class="date">${formattedDate}</div>
+            </div>
             <div class="viewer-content markdown-content">${marked.parse(post.content)}</div>
         `;
     }
