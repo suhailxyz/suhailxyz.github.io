@@ -6,6 +6,8 @@
     <title>Blog Posts</title>
     <link href="https://fonts.cdnfonts.com/css/w95fa" rel="stylesheet">
     <link rel="stylesheet" href="blog.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="blog.js"></script>
 </head>
 <body>
     <div class="blog-window">
@@ -46,14 +48,18 @@
             </div>
 
             <div class="post-viewer">
-                <!-- Post content will be populated by JavaScript -->
+                <div class="viewer-header">
+                    <!-- Header will be populated by JavaScript -->
+                </div>
+                <div class="viewer-content">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
             </div>
         </div>
 
         <div class="status-bar">
-            <div class="status-count">0 posts</div>
+            <div class="status-count">0 messages</div>
         </div>
     </div>
-    <script src="blog.js"></script>
 </body>
 </html> 

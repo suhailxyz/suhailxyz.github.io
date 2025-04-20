@@ -32,30 +32,45 @@ function formatDate(isoDate) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+    // Configure marked for security
+    marked.setOptions({
+        headerIds: false,
+        mangle: false,
+        headerPrefix: '',
+        breaks: true,
+        gfm: true,
+        sanitize: true
+    });
+
     // DOM elements
     const postList = document.querySelector('.post-list-container');
     const postViewer = document.querySelector('.post-viewer');
     const statusCount = document.querySelector('.status-count');
 
+    // Function to get list of posts from directory
+    async function getPostFiles() {
+        try {
+            const response = await fetch('./posts/');
+            const html = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const links = Array.from(doc.querySelectorAll('a'));
+            return links
+                .map(link => link.getAttribute('href'))
+                .filter(href => href && href.endsWith('.md'))
+                .map(href => href.split('/').pop());
+        } catch (error) {
+            console.error('Error getting post files:', error);
+            return [];
+        }
+    }
+
     // Load and parse posts
     async function loadPosts() {
         try {
-            // Get all markdown files from the posts directory
-            const response = await fetch('/posts/');
-            const html = await response.text();
-            
-            // Create a temporary element to parse the HTML
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            
-            // Find all links that end with .md
-            const mdFiles = Array.from(doc.querySelectorAll('a'))
-                .filter(a => a.href.endsWith('.md'))
-                .map(a => a.href.split('/').pop());
-            
-            // Load and parse each markdown file
-            const posts = await Promise.all(mdFiles.map(async file => {
-                const response = await fetch(`/posts/${file}`);
+            const postFiles = await getPostFiles();
+            const posts = await Promise.all(postFiles.map(async file => {
+                const response = await fetch(`./posts/${file}`);
                 const markdown = await response.text();
                 const parsed = parseMd(markdown);
                 if (!parsed) return null;
@@ -121,10 +136,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
         const header = `Subject: ${post.title}\nDate: ${formattedDate}\n\n`;
-        const content = post.content.split('\n').map(line => line.trim()).join('\n');
-
+        
+        // Create a container for the rendered content
         postViewer.innerHTML = `
-            <div class="viewer-content" style="white-space: pre-wrap; font-family: 'W95FA', monospace;">${header}${content}</div>
+            <div class="viewer-header" style="font-family: 'W95FA', monospace; white-space: pre-wrap;">${header}</div>
+            <div class="viewer-content markdown-content">${marked.parse(post.content)}</div>
         `;
     }
 

@@ -5,6 +5,33 @@
     box-sizing: border-box;
 }
 
+/* Scrollbar styling */
+*::-webkit-scrollbar {
+    width: 16px;
+    height: 16px;
+    background: #c0c0c0;
+}
+
+*::-webkit-scrollbar-track {
+    background: #c0c0c0;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: #808080;
+    border: 1px solid #c0c0c0;
+    box-shadow: inset 1px 1px #dfdfdf, inset -1px -1px #0a0a0a;
+}
+
+*::-webkit-scrollbar-button:single-button {
+    background: #c0c0c0;
+    border: 1px solid #ffffff;
+    border-bottom-color: #404040;
+    border-right-color: #404040;
+    height: 16px;
+    width: 16px;
+    display: block;
+}
+
 body {
     font-family: 'W95FA', 'MS Sans Serif', 'Microsoft Sans Serif', sans-serif;
     background-color: #008080;
@@ -110,10 +137,19 @@ body {
     display: flex;
     flex: 1;
     border-top: 1px solid #ffffff;
-    min-height: 0;
+    min-height: 0; /* Important for nested flex scrolling */
 }
 
-/* Post list header */
+/* Post list */
+.post-list {
+    width: 300px;
+    background-color: white;
+    border-right: 1px solid #808080;
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* Important for nested flex scrolling */
+}
+
 .post-header {
     position: sticky;
     top: 0;
@@ -134,21 +170,10 @@ body {
     text-align: left;
 }
 
-/* Post list */
-.post-list {
-    width: 300px;
-    background-color: white;
-    border-right: 1px solid #808080;
-    overflow-y: scroll;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-}
-
 .post-list-container {
-    display: flex;
-    flex-direction: column;
+    flex: 1;
+    overflow-y: scroll;
+    background: white;
 }
 
 .post {
@@ -159,7 +184,6 @@ body {
     font-size: 11px;
     height: 20px;
     align-items: center;
-    min-height: 20px;
 }
 
 .post-title {
@@ -191,17 +215,22 @@ body {
 .post-viewer {
     flex: 1;
     background-color: white;
-    overflow-y: scroll;
-    position: relative;
-    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* Important for nested flex scrolling */
+}
+
+.viewer-header {
+    padding: 8px;
+    border-bottom: 1px solid #c0c0c0;
+    font-family: 'W95FA', monospace;
+    white-space: pre-wrap;
 }
 
 .viewer-content {
-    padding: 8px 16px 8px 8px;
-    font-size: 12px;
-    line-height: 1.4;
-    font-family: 'W95FA', monospace;
-    white-space: pre-wrap;
+    flex: 1;
+    overflow-y: scroll;
+    padding: 8px;
 }
 
 /* Status bar */
@@ -215,87 +244,87 @@ body {
     align-items: center;
 }
 
-/* Scrollbar styling (Webkit/Blink only) */
-::-webkit-scrollbar {
-    width: 16px;
-    height: 16px;
-    background: #c0c0c0;
+/* Markdown content styling */
+.markdown-content {
+    font-family: 'W95FA', monospace;
+    line-height: 1.5;
 }
 
-::-webkit-scrollbar-track {
-    background: #c0c0c0;
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4,
+.markdown-content h5,
+.markdown-content h6 {
+    margin: 16px 0 8px;
+    font-weight: bold;
 }
 
-::-webkit-scrollbar-track-piece {
-    background: #c0c0c0;
-    border-left: 1px solid #ffffff;
-    border-top: 1px solid #ffffff;
-    border-right: 1px solid #404040;
-    border-bottom: 1px solid #404040;
+.markdown-content h1 { font-size: 1.4em; }
+.markdown-content h2 { font-size: 1.3em; }
+.markdown-content h3 { font-size: 1.2em; }
+.markdown-content h4 { font-size: 1.1em; }
+.markdown-content h5,
+.markdown-content h6 { font-size: 1em; }
+
+.markdown-content p {
+    margin: 8px 0;
 }
 
-::-webkit-scrollbar-thumb {
-    background: #c0c0c0;
-    border: 1px solid #404040;
-    border-top-color: #ffffff;
-    border-left-color: #ffffff;
+.markdown-content ul,
+.markdown-content ol {
+    margin: 8px 0;
+    padding-left: 24px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-    background: #d4d0c8;
+.markdown-content li {
+    margin: 4px 0;
 }
 
-/* Basic button styles */
-::-webkit-scrollbar-button {
-    display: block;
-    height: 16px;
-    width: 16px;
-    background: #c0c0c0;
-    border: 1px solid #404040;
-    border-top-color: #ffffff;
-    border-left-color: #ffffff;
+.markdown-content code {
+    font-family: 'W95FA', monospace;
+    background: #f0f0f0;
+    padding: 2px 4px;
+    border: 1px solid #d4d0c8;
 }
 
-/* Style the repeater buttons (no arrows) */
-::-webkit-scrollbar-button:vertical:increment:repeater,
-::-webkit-scrollbar-button:vertical:decrement:repeater {
-    background-image: none;
+.markdown-content pre {
+    background: #f0f0f0;
+    padding: 8px;
+    border: 1px solid #d4d0c8;
+    margin: 8px 0;
 }
 
-/* Style the end buttons with arrows */
-::-webkit-scrollbar-button:vertical:decrement {
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path d='M1 6l4-4 4 4z' fill='black'/></svg>");
-    background-position: center;
-    background-repeat: no-repeat;
+.markdown-content pre code {
+    background: none;
+    border: none;
+    padding: 0;
 }
 
-::-webkit-scrollbar-button:vertical:increment {
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path d='M1 4l4 4 4-4z' fill='black'/></svg>");
-    background-position: center;
-    background-repeat: no-repeat;
+.markdown-content blockquote {
+    margin: 8px 0;
+    padding: 8px 16px;
+    border-left: 4px solid #d4d0c8;
+    background: #f0f0f0;
 }
 
-::-webkit-scrollbar-button:horizontal:decrement {
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path d='M6 1l-4 4 4 4z' fill='black'/></svg>");
-    background-position: center;
-    background-repeat: no-repeat;
+.markdown-content table {
+    border-collapse: collapse;
+    margin: 8px 0;
+    width: 100%;
 }
 
-::-webkit-scrollbar-button:horizontal:increment {
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path d='M4 1l4 4-4 4z' fill='black'/></svg>");
-    background-position: center;
-    background-repeat: no-repeat;
+.markdown-content th,
+.markdown-content td {
+    border: 1px solid #d4d0c8;
+    padding: 4px 8px;
+    text-align: left;
 }
 
-::-webkit-scrollbar-button:active {
-    border: 1px solid #404040;
-    border-bottom-color: #ffffff;
-    border-right-color: #ffffff;
-    background-color: #c0c0c0;
+.markdown-content th {
+    background: #e6e6e6;
 }
 
-::-webkit-scrollbar-corner {
-    background: #c0c0c0;
-    border-left: 1px solid #ffffff;
-    border-top: 1px solid #ffffff;
+.markdown-content tr:nth-child(even) {
+    background: #f0f0f0;
 } 
