@@ -170,17 +170,38 @@ body {
     display: flex;
     flex: 1;
     border-top: 1px solid #ffffff;
-    min-height: 0; /* Important for nested flex scrolling */
+    min-height: 0;
+    position: relative;
 }
 
 /* Post list */
 .post-list {
     width: 300px;
     background-color: white;
-    border-right: 1px solid #808080;
     display: flex;
     flex-direction: column;
-    min-height: 0; /* Important for nested flex scrolling */
+    min-height: 0;
+    border-right: 4px solid #c0c0c0;
+    position: relative;
+    min-width: 150px;
+}
+
+.post-list::after {
+    content: '';
+    position: absolute;
+    right: -4px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    cursor: ew-resize;
+    background: #c0c0c0;
+    border-left: 1px solid #808080;
+    border-right: 1px solid #ffffff;
+}
+
+/* Remove the separate divider element styles */
+.divider {
+    display: none;
 }
 
 .post-header {
@@ -192,15 +213,21 @@ body {
     padding: 2px 4px;
     font-size: 11px;
     z-index: 1;
+    gap: 8px;
+    min-width: 0;
 }
 
 .header-title {
     flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .header-date {
-    width: 120px;
-    text-align: left;
+    flex: 0 0 65px;
+    text-align: right;
 }
 
 .post-list-container {
@@ -211,12 +238,14 @@ body {
 
 .post {
     display: flex;
-    padding: 1px 4px;
+    padding: 2px 4px;
     border-bottom: 1px solid #e0e0e0;
     cursor: pointer;
     font-size: 11px;
     height: 20px;
     align-items: center;
+    gap: 8px;
+    min-width: 0;
 }
 
 .post-title {
@@ -224,10 +253,12 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    min-width: 0;
 }
 
 .post-date {
-    width: 120px;
+    flex: 0 0 65px;
+    text-align: right;
     color: #000000;
 }
 
@@ -250,7 +281,8 @@ body {
     background-color: white;
     display: flex;
     flex-direction: column;
-    min-height: 0; /* Important for nested flex scrolling */
+    min-height: 0;
+    min-width: 200px;
 }
 
 .viewer-header {
@@ -423,4 +455,17 @@ body {
 
 .markdown-content tr:nth-child(even) {
     background: #f0f0f0;
+}
+
+/* Hide date columns when post list gets too narrow */
+@media (max-width: 200px) {
+    .post-list .header-date,
+    .post-list .post-date {
+        display: none;
+    }
+    
+    .post-header,
+    .post {
+        gap: 0;
+    }
 } 

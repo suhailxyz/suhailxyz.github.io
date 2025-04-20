@@ -43,7 +43,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     // DOM elements
-    const postList = document.querySelector('.post-list-container');
+    const postListContainer = document.querySelector('.post-list-container');
+    const postList = document.querySelector('.post-list');
     const postViewer = document.querySelector('.post-viewer');
     const statusCount = document.querySelector('.status-count');
 
@@ -97,7 +98,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const posts = await loadPosts();
         
         // Clear existing posts
-        postList.innerHTML = '';
+        postListContainer.innerHTML = '';
         
         // Add posts
         posts.forEach((post, index) => {
@@ -114,13 +115,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             const date = new Date(post.date);
             dateElement.textContent = date.toLocaleDateString('en-US', { 
                 month: 'short',
-                day: 'numeric',
+                day: '2-digit',
                 year: 'numeric'
-            });
+            }).replace(', ', ' ');
 
             postElement.appendChild(titleElement);
             postElement.appendChild(dateElement);
-            postList.appendChild(postElement);
+            postListContainer.appendChild(postElement);
 
             postElement.addEventListener('click', () => {
                 // Remove active class from all posts
@@ -131,7 +132,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 // Update viewer
                 renderPostContent(post);
             });
-            postList.appendChild(postElement);
         });
         
         // Update status count
@@ -181,6 +181,39 @@ document.addEventListener('DOMContentLoaded', async () => {
                     break;
             }
         }
+    });
+
+    // Add divider functionality
+    let isDragging = false;
+    let startX, startWidth;
+
+    postList.addEventListener('mousedown', function(e) {
+        const rect = postList.getBoundingClientRect();
+        const isClickOnDivider = e.clientX >= rect.right - 4 && e.clientX <= rect.right;
+        
+        if (isClickOnDivider) {
+            isDragging = true;
+            startX = e.pageX;
+            startWidth = postList.offsetWidth;
+            
+            document.body.style.cursor = 'ew-resize';
+            document.body.style.userSelect = 'none';
+        }
+    });
+
+    document.addEventListener('mousemove', function(e) {
+        if (!isDragging) return;
+
+        const width = startWidth + (e.pageX - startX);
+        if (width > 100 && width < window.innerWidth - 200) {
+            postList.style.width = width + 'px';
+        }
+    });
+
+    document.addEventListener('mouseup', function() {
+        isDragging = false;
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
     });
 
     // Initial render
