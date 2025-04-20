@@ -3,7 +3,7 @@ title: Sample Document
 date: 2024-04-19T10:00:00
 ---
 
-# JustRead.me Sample Document
+# On iPhones
 
 This is a sample markdown file to test the JustRead.me application.
 
