@@ -225,12 +225,23 @@ body {
     border-bottom: 1px solid #c0c0c0;
     font-family: 'W95FA', monospace;
     white-space: pre-wrap;
+    background: #f0f0f0;
+}
+
+.viewer-header .subject {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.viewer-header .date {
+    color: #404040;
+    font-size: 11px;
 }
 
 .viewer-content {
     flex: 1;
     overflow-y: scroll;
-    padding: 8px;
+    padding: 16px;
 }
 
 /* Status bar */

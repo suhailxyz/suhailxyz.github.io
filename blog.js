@@ -100,16 +100,35 @@ document.addEventListener('DOMContentLoaded', async () => {
         postList.innerHTML = '';
         
         // Add posts
-        posts.forEach(post => {
+        posts.forEach((post, index) => {
             const postElement = document.createElement('div');
             postElement.className = 'post';
-            postElement.innerHTML = `
-                <div class="post-title">${post.title}</div>
-                <div class="post-date">${formatDate(post.date)}</div>
-            `;
+            if (index === 0) postElement.classList.add('active');
+
+            const titleElement = document.createElement('div');
+            titleElement.className = 'post-title';
+            titleElement.textContent = post.title;
+
+            const dateElement = document.createElement('div');
+            dateElement.className = 'post-date';
+            const date = new Date(post.date);
+            dateElement.textContent = date.toLocaleDateString('en-US', { 
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            });
+
+            postElement.appendChild(titleElement);
+            postElement.appendChild(dateElement);
+            postList.appendChild(postElement);
+
             postElement.addEventListener('click', () => {
+                // Remove active class from all posts
                 document.querySelectorAll('.post').forEach(p => p.classList.remove('active'));
+                // Add active class to clicked post
                 postElement.classList.add('active');
+
+                // Update viewer
                 renderPostContent(post);
             });
             postList.appendChild(postElement);
