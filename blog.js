@@ -63,7 +63,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.log('Attempting to fetch index.json...');
         try {
             const baseUrl = getBaseUrl();
-            const response = await fetch(`${baseUrl}index.json`);
+            // In production, we need to fetch the raw content
+            const response = await fetch(baseUrl + 'index.json', {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
             console.log('Index.json response status:', response.status);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -86,7 +92,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             const baseUrl = getBaseUrl();
             const posts = await Promise.all(postFiles.map(async postInfo => {
                 console.log('Fetching post:', postInfo.file);
-                const response = await fetch(`${baseUrl}${postInfo.file}`);
+                // In production, we need to fetch the raw content
+                const response = await fetch(baseUrl + postInfo.file, {
+                    headers: {
+                        'Accept': 'text/plain',
+                        'Content-Type': 'text/plain'
+                    }
+                });
                 console.log(`Response for ${postInfo.file}:`, response.status);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status} for ${postInfo.file}`);
