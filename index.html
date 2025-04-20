@@ -6,27 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script type="module" src="https://md-block.verou.me/md-block.js"></script>
   <link href="https://fonts.cdnfonts.com/css/w95fa" rel="stylesheet">
-  <script>
-    // Function to change the image source
-    function changeImage() {
-      var image = document.getElementById("pfp");
-      // Check current image source
-      if (image.src.match("img/jerry.jpg")) {
-        // Change to the new image
-        image.src = "img/jerryeats.gif";
-        image.alt = "Jerry eats a big cheese";
-        // Schedule the reset after 3 seconds (3000 milliseconds)
-        setTimeout(function () {
-          image.src = "img/jerry.jpg";
-          image.alt = "Cheeky Jerry";
-        }, 2880);
-      } else {
-        // Change back to the original image
-        image.src = "img/jerry.jpg";
-        image.alt = "Cheeky Jerry";
-      }
-    }
-  </script>
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" type="image/png" href="img/32CheeseCursor.png">
 
@@ -34,9 +13,53 @@
 </head>
 
 <body>
-  <div class="container">
-    <img src="img/jerry.jpg" alt="Cheeky Jerry" id="pfp" onclick="changeImage()">
+  <script>
+    let isAnimating = false;
 
+    // Function to change the image
+    function changeImage() {
+      var image = document.getElementById("pfp");
+      
+      // Prevent multiple clicks while animating
+      if (isAnimating) return;
+      
+      if (image.src.match("img/jerry.jpg")) {
+        isAnimating = true;
+        image.src = "img/jerryeats.gif";
+        image.alt = "Jerry eats a big cheese";
+        
+        // Reset the GIF after 2.5 seconds (actual duration of animation)
+        setTimeout(() => {
+          image.src = "img/jerry.jpg";
+          image.alt = "Cheeky Jerry";
+          isAnimating = false;
+        }, 2500);
+      }
+    }
+
+    // Function to handle closing the applet
+    function closeApplet() {
+      document.querySelector('.profile-applet').remove();
+    }
+
+    // Make functions available globally
+    window.changeImage = changeImage;
+    window.closeApplet = closeApplet;
+  </script>
+
+  <div class="container">
+    <div class="profile-applet">
+        <div class="title-bar">
+            <div class="title-bar-text">
+                <img src="img/icons/jpg16.png" alt="" class="win98-icon" style="width: 16px; height: 16px;">
+                dontfeed.bmp
+            </div>
+            <button class="close-button" onclick="closeApplet()">×</button>
+        </div>
+        <div class="content">
+            <img src="img/jerry.jpg" alt="Cheeky Jerry" id="pfp" onclick="changeImage()">
+        </div>
+    </div>
 
     <md-block>
       # Hey, I'm Suhail!
@@ -45,9 +68,7 @@
       products, and people.
       ~~Writing about it sometimes.~~
       
-      <img src="img/digging.gif" alt="Digging"> <img src="img/undercon.gif"
-        alt="Under Construction">
-      <img src="img/digging.gif" alt="Digging">
+
     </md-block>
   </div>
 
@@ -99,19 +120,24 @@
     <div class="centered"><img src="img/smlrworkers.gif" alt="Workers" id="workersgif"></img></div>
 
     <div class="centered">
+      <img src="img/digging.gif" alt="Digging">
       <img src="img/ie.gif" alt="Internet Explorer"></img>
       <img src="img/css3.gif" alt="CSS3"></img>
       <img src="img/got_html.gif" alt="Got HTML"></img>
       <img src="img/geocities.gif" alt="Geocities"></img>
       <img src="img/netscape.gif" alt="Netscape"></img>
+      <img src="img/digging.gif" alt="Digging">
     </div>
 
   </div>
 
   <footer>
+
+
     <p>&copy; 1999 suhail.xyz ❤️ All rights reserved.</p>
   </footer>
 
 </body>
 
+</html>
 </html>
