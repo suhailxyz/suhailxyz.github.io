@@ -51,15 +51,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Function to get list of posts from directory
     async function getPostFiles() {
         try {
-            const response = await fetch('./posts/');
-            const html = await response.text();
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            const links = Array.from(doc.querySelectorAll('a'));
-            return links
-                .map(link => link.getAttribute('href'))
-                .filter(href => href && href.endsWith('.md'))
-                .map(href => href.split('/').pop());
+            const response = await fetch('./posts/index.json');
+            const posts = await response.json();
+            return posts;
         } catch (error) {
             console.error('Error getting post files:', error);
             return [];
@@ -70,14 +64,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function loadPosts() {
         try {
             const postFiles = await getPostFiles();
-            const posts = await Promise.all(postFiles.map(async file => {
-                const response = await fetch(`./posts/${file}`);
+            const posts = await Promise.all(postFiles.map(async postInfo => {
+                const response = await fetch(`./posts/${postInfo.file}`);
                 const markdown = await response.text();
                 const parsed = parseMd(markdown);
                 if (!parsed) return null;
 
                 return {
-                    id: file.replace('.md', ''),
                     title: parsed.metadata.title,
                     date: parsed.metadata.date,
                     content: parsed.content
