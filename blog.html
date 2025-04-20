@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Posts</title>
+    <link href="https://fonts.cdnfonts.com/css/w95fa" rel="stylesheet">
+    <link rel="stylesheet" href="blog.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="blog.js"></script>
+</head>
+<body>
+    <div class="blog-window">
+        <div class="title-bar">
+            <div class="title">Blog Posts</div>
+            <div class="window-controls">
+                <button data-action="minimize">_</button>
+                <button data-action="maximize">□</button>
+                <button data-action="close">×</button>
+            </div>
+        </div>
+
+        <div class="menu-bar">
+            <div class="menu-item">File</div>
+            <div class="menu-item">Edit</div>
+            <div class="menu-item">View</div>
+            <div class="menu-item">Message</div>
+            <div class="menu-item">Special</div>
+            <div class="menu-item">Help</div>
+        </div>
+
+        <div class="toolbar">
+            <button class="tool-button" data-action="home">I'm Scared (Home)</button>
+            <button class="tool-button" data-action="new">Try Linux</button>
+            <button class="tool-button" data-action="forward">Ask ChatGPT</button>
+            <button class="tool-button" data-action="delete">Increase Trash</button>
+        </div>
+
+        <div class="content-area">
+            <div class="post-list">
+                <div class="post-header">
+                    <div class="header-title">Subject</div>
+                    <div class="header-date">Date</div>
+                </div>
+                <div class="post-list-container">
+                    <!-- Posts will be populated by JavaScript -->
+                </div>
+            </div>
+            <div class="divider" id="divider"></div>
+            <div class="post-viewer">
+                <div class="viewer-header">
+                    <!-- Header will be populated by JavaScript -->
+                </div>
+                <div class="viewer-content">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <div class="status-count">0 messages</div>
+        </div>
+    </div>
+</body>
+</html> 
