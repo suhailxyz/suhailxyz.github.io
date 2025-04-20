@@ -50,9 +50,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Function to get list of posts from directory
     async function getPostFiles() {
+        console.log('Attempting to fetch index.json...');
         try {
             const response = await fetch('./posts/index.json');
+            console.log('Index.json response status:', response.status);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             const posts = await response.json();
+            console.log('Successfully loaded index.json:', posts);
             return posts;
         } catch (error) {
             console.error('Error getting post files:', error);
@@ -62,14 +68,24 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Load and parse posts
     async function loadPosts() {
+        console.log('Starting to load posts...');
         try {
             const postFiles = await getPostFiles();
+            console.log('Got post files:', postFiles);
             const posts = await Promise.all(postFiles.map(async postInfo => {
+                console.log('Fetching post:', postInfo.file);
                 const response = await fetch(`./posts/${postInfo.file}`);
+                console.log(`Response for ${postInfo.file}:`, response.status);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status} for ${postInfo.file}`);
+                }
                 const markdown = await response.text();
                 const parsed = parseMd(markdown);
-                if (!parsed) return null;
-
+                if (!parsed) {
+                    console.log(`Failed to parse markdown for ${postInfo.file}`);
+                    return null;
+                }
+                console.log(`Successfully loaded post: ${postInfo.file}`);
                 return {
                     title: parsed.metadata.title,
                     date: parsed.metadata.date,
@@ -77,7 +93,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 };
             }));
 
-            return posts.filter(post => post !== null).sort((a, b) => 
+            const filteredPosts = posts.filter(post => post !== null);
+            console.log('Final processed posts:', filteredPosts);
+            return filteredPosts.sort((a, b) => 
                 new Date(b.date) - new Date(a.date)
             );
         } catch (error) {
