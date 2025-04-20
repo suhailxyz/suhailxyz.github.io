@@ -116,7 +116,7 @@ body {
 }
 
 .tool-button {
-    padding: 1px 8px;
+    padding: 1px 8px 1px 24px;
     background-color: #c0c0c0;
     border: 1px solid #ffffff;
     border-bottom-color: #404040;
@@ -124,6 +124,39 @@ body {
     cursor: pointer;
     font-size: 11px;
     height: 20px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    font-family: 'W95FA', monospace;
+}
+
+.tool-button::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.tool-button[data-action="new"]::before {
+    background-image: url('../img/icons/dos16.png');
+}
+
+.tool-button[data-action="reply"]::before {
+    background-image: url('../img/icons/disc16.png');
+}
+
+.tool-button[data-action="forward"]::before {
+    background-image: url('../img/icons/help16.png');
+}
+
+.tool-button[data-action="delete"]::before {
+    background-image: url('../img/icons/trash16.png');
 }
 
 .tool-button:active {
@@ -222,13 +255,13 @@ body {
 
 .viewer-header {
     background: #e6e6e6;
-    padding: 20px;
+    padding: 1em;
     border-bottom: 2px groove #ffffff;
     font-family: 'W95FA', monospace;
 }
 
 .viewer-header .subject {
-    font-size: 14px;
+    font-size: 1em;
     margin-bottom: 12px;
     padding-left: 24px;
     position: relative;
@@ -249,7 +282,7 @@ body {
 
 .viewer-header .date {
     color: #666666;
-    font-size: 12px;
+    font-size: 1em;
     padding: 4px 8px;
     background: #f0f0f0;
     display: inline-block;
