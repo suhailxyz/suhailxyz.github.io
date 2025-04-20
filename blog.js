@@ -52,7 +52,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     function getBaseUrl() {
         // Check if we're in production (GitHub Pages)
         if (window.location.hostname === 'heysuhail.com') {
-            // Use raw GitHub content URL
             return 'https://raw.githubusercontent.com/suhailxyz/suhailxyz.github.io/master/posts/';
         }
         return './posts/'; // Local development
@@ -63,11 +62,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.log('Attempting to fetch index.json...');
         try {
             const baseUrl = getBaseUrl();
-            // In production, we need to fetch the raw content
             const response = await fetch(baseUrl + 'index.json', {
                 headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Accept': 'application/json'
                 }
             });
             console.log('Index.json response status:', response.status);
@@ -92,11 +89,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             const baseUrl = getBaseUrl();
             const posts = await Promise.all(postFiles.map(async postInfo => {
                 console.log('Fetching post:', postInfo.file);
-                // In production, we need to fetch the raw content
                 const response = await fetch(baseUrl + postInfo.file, {
                     headers: {
-                        'Accept': 'text/plain',
-                        'Content-Type': 'text/plain'
+                        'Accept': 'text/plain'
                     }
                 });
                 console.log(`Response for ${postInfo.file}:`, response.status);
